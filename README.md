@@ -1,0 +1,2 @@
+# RedWald
+ParrotOS customization script.
