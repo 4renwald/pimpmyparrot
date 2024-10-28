@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=bash -c 'burpsuite'
+Name[en_US]=BurpSuite _
+Name=BurpSuite _
+Icon=/usr/share/icons/htb/burpsuite.png
+Icon[en_US]=/usr/share/icons/htb/burpsuite.png

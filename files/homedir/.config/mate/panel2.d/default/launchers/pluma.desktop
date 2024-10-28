@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=pluma %U
+Name[en_US]=Pluma Text Editor
+Icon=accessories-text-editor
+Icon[en_US]=accessories-text-editor
+Name=Pluma Text Editor
