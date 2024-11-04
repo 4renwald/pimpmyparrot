@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="500px" src="assets/images/YoRHA_OS.gif" />
+  <img width="375px" src="assets/images/YoRHA_OS.gif" />
   <h1>YoRHa_OS</h1>
     <br/>
   <br />
