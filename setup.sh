@@ -260,7 +260,7 @@ settings () {
     
     # Load terminal and panel configs
     sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/terminal/ < ./files/dconf_terminal 2>logs/errors.log
-sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/panel/ < ./files/dconf_panel 2>logs/errors.log
+    sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/panel/ < ./files/dconf_panel 2>logs/errors.log
     killall mate-panel
     
     spinner_end
