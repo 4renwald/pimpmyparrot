@@ -21,4 +21,4 @@ sudo YoRHa_OS/setup.sh
 ```
 ![](assets/images/setup.gif)
 
-Inside the script directory, a "logs" is created and contains each task's outputs in separated files.
+Inside the script directory, a "logs" folder is created and contains each task's outputs in separated files.
