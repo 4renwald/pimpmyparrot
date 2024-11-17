@@ -161,10 +161,20 @@ install_pwsh () {
         return 0
     fi
     wget -P /tmp/YoRHa_OS/ https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    sudo dpkg -i /tmp/YoRHa_OS/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    sudo apt-get install -f /tmp/YoRHa_OS/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
+    dpkg -i /tmp/YoRHa_OS/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
+    apt-get install -f /tmp/YoRHa_OS/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
     spinner_end
     print_success "PowerShell installed\n"
+}
+
+# Intall xfreerdp with aptitude
+install_xfreerdp () {
+    print_info "Installing aptitude and xfreerdp"
+    spinner &
+    apt install aptitude -y 1>>logs/xfreerdp.log 2>logs/errors.log
+    aptitude install xfreerdp2-x11 -y 1>>logs/xfreerdp.log 2>logs/errors.log
+    spinner_end
+    print_success "aptitude and xfreerdp installed"
 }
 
 # Add Burpsuite cerificate to CA Certificates
@@ -275,6 +285,7 @@ main () {
     install_pyenv
     install_java_21
     install_pwsh
+    install_xfreerdp
     get_burp_cert
     firefox
     install_dracula_theme
