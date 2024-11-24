@@ -167,14 +167,33 @@ install_pwsh () {
     print_success "PowerShell installed\n"
 }
 
-# Intall xfreerdp with aptitude
+# Install xfreerdp with aptitude
 install_xfreerdp () {
     print_info "Installing aptitude and xfreerdp"
     spinner &
     apt install aptitude -y 1>>logs/xfreerdp.log 2>logs/errors.log
     aptitude install xfreerdp2-x11 -y 1>>logs/xfreerdp.log 2>logs/errors.log
     spinner_end
-    print_success "aptitude and xfreerdp installed"
+    print_success "aptitude and xfreerdp installed\n"
+}
+
+# Install pwntools
+install_pwntools () {
+    print_info "Installing pwntools"
+    spinner &
+    apt install python3-pwntools -y 1>>logs/pwntools.log 2>logs/errors.log
+    spinner_end
+    print_success "pwntools installed\n"
+}
+
+# Install Freeze
+install_freeze () {
+    print_info "Installing Freeze"
+    spinner &
+    wget -P /tmp/YoRHa_OS/ https://github.com/charmbracelet/freeze/releases/download/v0.1.6/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
+    apt-get install -f /tmp/YoRHa_OS/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
+    spinner_end
+    print_success "Freeze installed\n"
 }
 
 # Add Burpsuite cerificate to CA Certificates
@@ -286,6 +305,8 @@ main () {
     install_java_21
     install_pwsh
     install_xfreerdp
+    install_pwntools
+    install_freeze
     get_burp_cert
     firefox
     install_dracula_theme
