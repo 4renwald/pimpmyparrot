@@ -290,9 +290,6 @@ settings () {
     # zsh auto-suggestions
     git clone https://github.com/zsh-users/zsh-autosuggestions $target_user/.zsh/zsh-autosuggestions 1>>logs/zsh.log 2>logs/errors.log
 
-    # Change default shell
-    sudo -H -u $target_user chsh -s $(which zsh)
-
     # Load terminal and panel configs
     sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/terminal/ < ./files/dconf_terminal 2>logs/errors.log
     sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/panel/ < ./files/dconf_panel 2>logs/errors.log
