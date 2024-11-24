@@ -22,3 +22,7 @@ sudo YoRHa_OS/setup.sh
 ![](assets/images/setup.gif)
 
 Inside the script directory, a "logs" folder is created and contains each task's outputs in separated files.
+
+## Known errors
+### Firefox
+If the Firefox task fails with a *cannot access .mozilla/firefox: No such file or directory* error, simply run firefox once and close it. The needed files will be generated.
