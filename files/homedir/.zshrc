@@ -14,3 +14,5 @@ compinit
 
 PROMPT='%F{red}┌─[%F{green}%n%F{cyan}@%F{white}%m%F{red}]─[%F{green}%c%F{red}]
 └──╼ %F{%(#.red.yellow)}$ %F{reset}'
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
