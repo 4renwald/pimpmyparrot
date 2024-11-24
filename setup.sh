@@ -216,38 +216,10 @@ get_burp_cert () {
 # Firefox configurations
 firefox () {
     print_info "Configuring Firefox"
-    spinner & 
-    SPINNER_PID=$!
-
-    firefox --headless >/dev/null 2>&1 & 
-    FIREFOX_PID=$!
-
-    sleep 5
-    kill "$FIREFOX_PID" 2>/dev/null
-
-    default_profile=$(ls "/home/$target_user/.mozilla/firefox/" | grep "default-release")
-    if [[ -z "$default_profile" ]]; then
-        kill "$SPINNER_PID" 2>/dev/null
-        print_error "Failed to locate the Firefox default profile.\n"
-        return 1
-    fi
-
-    sqlite3 "/home/$target_user/.mozilla/firefox/$default_profile/places.sqlite" \
-        ".restore ./files/applications/firefox/places.sqlite" 2>>logs/errors.log
-    if [[ $? -ne 0 ]]; then
-        kill "$SPINNER_PID" 2>/dev/null
-        print_error "Failed to restore places.sqlite.\n"
-        return 1
-    fi
-
-    cp ./files/applications/firefox/policies.json /usr/lib/firefox/distribution 2>>logs/errors.log
-    if [[ $? -ne 0 ]]; then
-        kill "$SPINNER_PID" 2>/dev/null
-        print_error "Failed to copy policies.json.\n"
-        return 1
-    fi
-
-    kill "$SPINNER_PID" 2>/dev/null
+    spinner &
+    default_profile=$(ls /home/$target_user/.mozilla/firefox/ | grep default-release)
+    sqlite3 /home/$target_user/.mozilla/firefox/$default_profile/places.sqlite ".restore ./files/applications/firefox/places.sqlite" 2>logs/errors.log
+    cp ./files/applications/firefox/policies.json /usr/lib/firefox/distribution 2>logs/errors.log
     spinner_end
     print_success "Configured Firefox\n"
 }
