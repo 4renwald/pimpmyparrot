@@ -172,7 +172,7 @@ install_xfreerdp () {
     print_info "Installing aptitude and xfreerdp"
     spinner &
     apt install aptitude -y 1>>logs/xfreerdp.log 2>logs/errors.log
-    aptitude install xfreerdp2-x11 -y 1>>logs/xfreerdp.log 2>logs/errors.log
+    aptitude install freerdp2-x11 -y 1>>logs/xfreerdp.log 2>logs/errors.log
     spinner_end
     print_success "aptitude and xfreerdp installed\n"
 }
