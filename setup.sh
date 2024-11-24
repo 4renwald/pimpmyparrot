@@ -217,11 +217,7 @@ get_burp_cert () {
 firefox () {
     print_info "Configuring Firefox"
     spinner &
-    firefox &
-    FIREFOX_PID=$!
-    sleep 5
-    kill "$FIREFOX_PID"
-    wait "$FIREFOX_PID" 2>/dev/null
+    firefox >/dev/null 2>&1
     default_profile=$(ls /home/$target_user/.mozilla/firefox/ | grep default-release)
     sqlite3 /home/$target_user/.mozilla/firefox/$default_profile/places.sqlite ".restore ./files/applications/firefox/places.sqlite" 2>logs/errors.log
     cp ./files/applications/firefox/policies.json /usr/lib/firefox/distribution 2>logs/errors.log
