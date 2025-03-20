@@ -15,8 +15,8 @@ The script was tested on :
 
 ##  Usage
 ```
-git clone https://github.com/4renwald/YoRHa_OS.git
-sudo YoRHa_OS/setup.sh
+git clone https://github.com/4renwald/pimpmyparrot.git
+sudo pimpmyparrot/setup.sh
 ```
 ![](assets/images/setup.gif)
 
