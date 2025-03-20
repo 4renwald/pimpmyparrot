@@ -1,10 +1,10 @@
 <div align="center">
-  <h1>YoRHa_OS</h1>
+  <h1>pimpmyparrot.sh</h1>
     <br/>
   <br />
 </div>
 
-This repo is for my ParrotOS customization scripts, inspied from HTB's Pwnbox and my personal preferences. Couldn't find a better name so I called this YoRHa_OS since i'm a big fan, that's it🌚.
+This repo is for my ParrotOS customization scripts, inspied from HTB's Pwnbox and my personal preferences.
 
 
 ## Requirements
