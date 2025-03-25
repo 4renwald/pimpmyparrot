@@ -28,28 +28,46 @@ ENDCOLOR=$(tput sgr0)
 # Print banner
 banner () {
     echo "$BEIGE
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡏⡄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠀⡆⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⣿⡇⢃
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⠀⢃⠀⠀⠀⠀⡇⠆⠀⠀⠀⢠⣿⡇⢸
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⢸⠀⠀⠀⢸⡇⢸⠀⠀⠀⢸⣿⡇⠀⡆
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⢸⠀⠀⠀⣾⡇⠀⡆⠀⠀⢸⣿⡇⠀⡇
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⢸⠀⣠⠀⣿⡇⠀⡇⢰⡀⢸⣿⡇⠀⡇
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⣿⢀⠬⠀⣿⡆⣿⡇⠀⡇⣾⡇⠸⢿⡇⡠⠇
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠿⣿⣆⣱⣿⠿⠎⣷⣿⣧⠀⣷⡇⠾⢿⣷⣁⣾⡿⠶
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣽⢯⡄⠘⠷⠋⣿⣿⢀⡏⠳⠛⠀⣬⢿⣅
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⣤⡄⠀⠈⢿⣌⠻⣄⡒⠲⣶⡝⣵⡶⠒⣂⡼⢋⣾⠋⠀⠀⣤⣤⣤
-⠀⠀⠀⠀⠀⠀⠀⠀⢸⡈⣿⣏⢸⣿⣆⠀⢙⣷⢦⣍⣓⢸⣿⣿⢐⣋⣥⢶⣏⠁⢀⣾⣷⢈⣿⡏⣼
-⠀⠀⠀⠀⠀⣀⣴⣶⠶⢃⣿⣿⣌⠻⣿⠰⣿⣇⠀⠀⠡⠾⣿⡿⠦⠁⠀⢀⣿⡷⢸⡿⢋⣼⣿⣧⡑⠂⠂⢄⡀
-⠀⠀⣀⡴⠾⢛⣉⠠⠤⠛⠉⠙⠻⣷⣌⢿⣶⣶⣿⣇⣐⠺⣿⡿⢒⣀⣿⣷⣶⣾⢏⣴⡿⠛⠉⠙⠻⠿⢶⣤⣌⡒⠄⡀
-⠔⠚⠃⠈⠉⠀⠀⠀⠀⠀⠀⠀⣤⣼⡟⢸⠿⠿⠿⠿⣿⣇⠹⢁⣿⡿⠿⠿⠿⢿⡜⠛⠠⠄⠀⠀⠀⠀⠀⠀⠈⠉⠉⠚⠒⠄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡿⠋⠀⡨⠂⠀⠀⠀⣠⣿⡇⠉⠣⡀⠀⠀⠀⠺⣿⣦⡀⠈⡄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠟⢁⠔⠁⠀⠀⠀⠀⠀⢸⣿⡇⠀⢰⠀⠀⠀⠀⠀⠀⠙⢿⣄⠘⡄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⡫⠂⠁⠀⠀⠀⠀⠀⠀⠀⠀⢿⡇⠀⠆⠀⠀⠀⠀⠀⠀⠀⠀⠉⠳⣔⡀
-⠀⠀⠀⠀⠀⠀⠀⠀⠐⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠒
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢃⠃
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘
-                  YoRHa OS                     $ENDCOLOR"
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⠴⠚⠉⣽⠀⢀⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠶⠚⠉⠉⠉⠉⠁⠀⠀⠾⠷⠒⢛⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⠶⢿⣁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢸⠋⠉⢳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣿⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣿⡀⠀⠀⠹⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠞⠉⠀⠀⠀⠀⠈⠛⠦⣄⠀⠀⢀⣴⢟⡟⠻⣦⡀⠀⠀⠈⢷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠹⡇⠀⠀⠀⠙⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⣠⣾⣦⢙⣿⣷⣾⣧⠀⠀⠀⠈⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⣴⣦⡀⢹⡄⠀⠀⠀⠘⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⢻⣿⣿⣿⣿⡏⣸⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⢻⠁⠙⢦⣷⡄⠀⠀⠀⠘⣦⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣟⣿⣿⣛⣿⢣⡇⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠸⣧⠀⠀⠙⢷⡄⠀⠀⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⢾⠟⢿⡈⠀⠀⠀⠉⠉⠀⠀⠀⠀⣸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠙⢧⠀⠀⠀⠹⣄⠀⠀⢀⣨⢧⡀⠀⠀⠀⠀⠀⠹⡄⠀⠀⣀⣠⢤⠶⠶⠒⠋⣡⣾⠀⠘⣿⠀⠀⠀⠀⠀⠀⠀⠀⢰⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⢣⡀⠀⠀⠙⣦⠀⠈⢧⠀⠙⠶⣄⠀⠀⠀⠀⣷⡴⠋⠁⠀⢘⡄⢀⡶⠛⡽⠁⠀⢠⡿⠀⠀⠀⠀⠀⠀⠀⢠⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⣿⠛⠒⠮⣷⡄⠀⠀⠈⢳⡀⠈⢧⡀⠀⠈⠳⣤⡀⠀⠘⠃⠀⠀⠀⣼⡁⣿⣠⠞⠁⠀⢠⡾⠃⠀⠀⠀⠀⠀⠀⣰⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠹⣆⠀⠀⠀⠙⢧⣀⠀⠀⠙⢦⣤⣹⣆⠀⠀⠀⠉⠓⠶⢤⣀⣀⣰⠿⣷⠿⠥⠴⠶⠛⠉⠀⠀⠀⠀⠀⠀⢠⣼⣃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠈⢷⣀⠀⠀⠀⠙⠶⣄⡀⠈⢧⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠉⢉⡽⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣈⣹⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠙⠳⣄⠀⠀⠀⠀⠙⠓⠾⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⣠⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠉⠉⠉⠙⠳⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⣿⡍⠉⠙⠛⠛⠲⢤⣄⡀⠀⠀⠀⢈⣿⠶⠤⠀⠀⠀⠀⡼⠷⠒⠲⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠃⠀⠀⠀⠀⠀⠀⠀⠈⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠈⠻⢦⣀⠀⠀⠀⠀⠈⠉⠙⠲⠶⠾⢧⣀⠀⠀⠀⠀⣸⠃⠀⠀⠀⠀⠹⣄⠀⠀⠀⠀⠀⠀⣾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⣷⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠉⠙⢲⣦⣄⣀⣀⠀⠀⠀⠀⠀⠈⠑⢶⣤⠐⣿⠀⠀⠀⠀⠀⠀⠈⣆⠀⠀⠀⠀⢸⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡿⢻⡆⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⢰⡟⠉⠉⠀⠈⠉⠙⠛⠓⠒⠒⠒⠒⠛⠧⣤⣿⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⢠⣦⠀⣿⠃⠈⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠈⠛⠲⠤⢤⣤⣤⣄⣤⣤⣤⠤⠤⠖⠒⠛⠉⢹⡆⠀⠀⠀⠀⠀⠀⠀⠸⡆⠀⠀⢸⡆⠀⠀⠀⠀⠀⢀⡀⠀⣿⣠⠏⠀⠀⢹⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠟⠋⠁⠀⠀⠀⠀⢀⣀⡴⠞⢷⡀⠀⠀⠀⠀⠀⠀⠀⢹⡀⠀⠈⣧⠀⠀⠀⠀⠀⠈⡇⢠⣿⠟⠀⠀⢠⣼⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠾⣯⣀⣀⣀⣀⣠⣤⠶⠒⠋⠁⠀⠀⢈⣧⡀⠀⠀⠀⠀⠀⠀⠈⢇⠀⠀⢻⡀⠀⠀⠀⢷⠠⣿⣿⠋⠀⠀⠀⢸⣿⡆⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠧⣤⣤⣤⠤⠤⠒⠚⠉⢈⣳⡀⠀⠀⠀⠀⠀⠀⠸⡆⠀⠈⣧⠀⠀⠀⢸⣦⡿⠉⠀⠀⠀⠘⣿⡿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠛⠛⠉⠀⠻⣄⠀⠀⠀⠀⠀⠀⢳⡀⠀⠘⣧⠀⠀⣼⡟⠁⠀⠀⠀⢻⣀⣿⣧⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠷⣄⠀⠀⠀⠀⠈⢷⠀⠀⠈⠳⣴⠏⠀⠀⠀⠀⡀⠈⣿⣷⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⡄⠀⠀⠀⠈⢧⡀⠀⠀⠘⢧⠀⠀⠀⠀⢿⡀⣿⣿⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠣⣄⡀⠀⠀⠻⡄⠀⠀⠈⢳⡄⠀⠀⠘⣷⣿⡎⡇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠷⣤⣀⠻⣄⠀⠀⠀⠹⣦⡀⠀⣿⠂⣿⡃⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣯⠉⢻⣧⡀⠀⠀⠈⠙⡾⣯⠀⠘⣇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠘⡆⠈⣧⠙⠲⣤⣤⡴⣏⠈⠶⣤⡿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡟⠉⣡⣤⠭⠭⣭⣟⠛⠚⠛⠀⠘⢷⡶⠚⢿⡀⠙⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠷⠾⡃⠀⠀⠀⠀⠀⣀⡴⠞⠋⠙⠻⢿⠤⠽⠿⣄⡀⠈⢙⣛⠛⠛⠷⠶⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠷⠦⠶⠶⠚⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢦⡀⠉⠉⠳⢦⡀⣸⣿
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢦⣄⠀⣸⣿⠟⠋
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⠿⠿⠿⠷⠿⠿⠯⠽⠿⠿⠿⢷⠞⠟⠿⠷⠾⠷⣿⠺⠀⠀⠐⠄⠘
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢀⡀⡀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                  pimpmyparrot                     $ENDCOLOR"
     echo $ENDCOLOR
     echo ""
 }
@@ -94,11 +112,11 @@ is_user_root () {
     fi
 }
 
-# Clean up /tmp/YoRHa_OS folder when failure or end
+# Clean up /tmp/pimpmyparrot folder when failure or end
 clean_up_tmp () {
     print_info "Cleaning up"
     spinner &
-    rm -rf /tmp/YoRHa_OS/
+    rm -rf /tmp/pimpmyparrot/
     spinner_end
     print_success "Cleaned up temp files\n"
 }
@@ -109,9 +127,9 @@ change_directory_script () {
     cd $SCRIPT_DIR
     
     # Create tmp and logs folders for script execution
-    mkdir -p /tmp/YoRHa_OS
+    mkdir -p /tmp/pimpmyparrot
     mkdir -p ./logs
-    rm -rf /tmp/YoRHa_OS/* ./logs/*
+    rm -rf /tmp/pimpmyparrot/* ./logs/*
 }
 
 # Update system
@@ -144,9 +162,9 @@ install_java_21 () {
     fi
     spinner &
     java_21_url="https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz"
-    wget -P /tmp/YoRHa_OS/ $java_21_url 1>>logs/java_update.log 2>logs/errors.log
-    tar xvf /tmp/YoRHa_OS/openjdk-21.0.2_linux-x64_bin.tar.gz -C /tmp/YoRHa_OS/ 1>>logs/java_update.log 2>logs/errors.log
-    mv /tmp/YoRHa_OS/jdk-21.0.2/ /usr/lib/jvm/jdk-21 2>logs/errors.log
+    wget -P /tmp/pimpmyparrot/ $java_21_url 1>>logs/java_update.log 2>logs/errors.log
+    tar xvf /tmp/pimpmyparrot/openjdk-21.0.2_linux-x64_bin.tar.gz -C /tmp/pimpmyparrot/ 1>>logs/java_update.log 2>logs/errors.log
+    mv /tmp/pimpmyparrot/jdk-21.0.2/ /usr/lib/jvm/jdk-21 2>logs/errors.log
     spinner_end
     print_success "Java version 21 installed\n"
 }
@@ -160,9 +178,9 @@ install_pwsh () {
         print_success "PowerShell is already installed\n"
         return 0
     fi
-    wget -P /tmp/YoRHa_OS/ https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    dpkg -i /tmp/YoRHa_OS/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    apt-get install -f /tmp/YoRHa_OS/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
+    wget -P /tmp/pimpmyparrot/ https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
+    dpkg -i /tmp/pimpmyparrot/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
+    apt-get install -f /tmp/pimpmyparrot/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
     spinner_end
     print_success "PowerShell installed\n"
 }
@@ -190,8 +208,8 @@ install_pwntools () {
 install_freeze () {
     print_info "Installing Freeze"
     spinner &
-    wget -P /tmp/YoRHa_OS/ https://github.com/charmbracelet/freeze/releases/download/v0.1.6/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
-    apt-get install -f /tmp/YoRHa_OS/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
+    wget -P /tmp/pimpmyparrot/ https://github.com/charmbracelet/freeze/releases/download/v0.1.6/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
+    apt-get install -f /tmp/pimpmyparrot/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
     spinner_end
     print_success "Freeze installed\n"
 }
@@ -230,13 +248,13 @@ install_dracula_theme () {
     spinner &
     rm -rf /usr/share/themes/Dracula
     rm -rf /usr/share/icons/Dracula
-    wget -P /tmp/YoRHa_OS https://github.com/dracula/gtk/archive/master.zip 1>>logs/dracula_theme.log 2>logs/errors.log
-    wget -P /tmp/YoRHa_OS https://github.com/dracula/gtk/files/5214870/Dracula.zip 1>>logs/dracula_theme.log 2>logs/errors.log
-    unzip /tmp/YoRHa_OS/master.zip -d /tmp/YoRHa_OS 1>>logs/dracula_theme.log 2>logs/errors.log
-    mv /tmp/YoRHa_OS/gtk-master /tmp/YoRHa_OS/Dracula 1>>logs/dracula_theme.log 2>logs/errors.log
-    mv /tmp/YoRHa_OS/Dracula /usr/share/themes 1>>logs/dracula_theme.log 2>logs/errors.log
-    unzip /tmp/YoRHa_OS/Dracula.zip -d /tmp/YoRHa_OS 1>>logs/dracula_theme.log 2>logs/errors.log
-    mv /tmp/YoRHa_OS/Dracula /usr/share/icons 1>>logs/dracula_theme.log 2>logs/errors.log
+    wget -P /tmp/pimpmyparrot https://github.com/dracula/gtk/archive/master.zip 1>>logs/dracula_theme.log 2>logs/errors.log
+    wget -P /tmp/pimpmyparrot https://github.com/dracula/gtk/files/5214870/Dracula.zip 1>>logs/dracula_theme.log 2>logs/errors.log
+    unzip /tmp/pimpmyparrot/master.zip -d /tmp/pimpmyparrot 1>>logs/dracula_theme.log 2>logs/errors.log
+    mv /tmp/pimpmyparrot/gtk-master /tmp/pimpmyparrot/Dracula 1>>logs/dracula_theme.log 2>logs/errors.log
+    mv /tmp/pimpmyparrot/Dracula /usr/share/themes 1>>logs/dracula_theme.log 2>logs/errors.log
+    unzip /tmp/pimpmyparrot/Dracula.zip -d /tmp/pimpmyparrot 1>>logs/dracula_theme.log 2>logs/errors.log
+    mv /tmp/pimpmyparrot/Dracula /usr/share/icons 1>>logs/dracula_theme.log 2>logs/errors.log
     spinner_end
     print_success "Dracula theme installed\n"
 }
@@ -257,10 +275,10 @@ install_fonts () {
     mkdir -p /home/$target_user/.local/share/fonts
     
     # Cascadia Code
-    mkdir -p /tmp/YoRHa_OS/CascadiaCode
-    wget -P /tmp/YoRHa_OS/CascadiaCode https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip 1>>logs/install_fonts.log 2>logs/errors.log
-    unzip /tmp/YoRHa_OS/CascadiaCode/CascadiaCode-2404.23.zip -d /tmp/YoRHa_OS/CascadiaCode 1>>logs/install_fonts.log 2>logs/errors.log
-    rsync -a /tmp/YoRHa_OS/CascadiaCode/ttf/ /home/$target_user/.local/share/fonts/ 2>logs/errors.log
+    mkdir -p /tmp/pimpmyparrot/CascadiaCode
+    wget -P /tmp/pimpmyparrot/CascadiaCode https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip 1>>logs/install_fonts.log 2>logs/errors.log
+    unzip /tmp/pimpmyparrot/CascadiaCode/CascadiaCode-2404.23.zip -d /tmp/pimpmyparrot/CascadiaCode 1>>logs/install_fonts.log 2>logs/errors.log
+    rsync -a /tmp/pimpmyparrot/CascadiaCode/ttf/ /home/$target_user/.local/share/fonts/ 2>logs/errors.log
     
     spinner_end
     print_success "Fonts installed\n"
@@ -272,16 +290,16 @@ settings () {
     spinner &
     
     # Copy bash scripts for terminal in /etc/htb/ 
-    mkdir -p /etc/YoRHa_OS 2> logs/errors.log
-    cp -rf ./files/etc/YoRHa_OS/* /etc/YoRHa_OS
-    chmod a+x /etc/YoRHa_OS/*
+    mkdir -p /etc/pimpmyparrot 2> logs/errors.log
+    cp -rf ./files/etc/pimpmyparrot/* /etc/pimpmyparrot
+    chmod a+x /etc/pimpmyparrot/*
 
     # Copy user configs to homedir
     cp -rf ./files/homedir/. /home/$target_user/ 2>logs/errors.log
 
     # Copy theme settings
-    mkdir -p /usr/share/themes/YoRHa_OS
-    cp -f ./files/usr/share/themes/index.theme /usr/share/themes/YoRHa_OS
+    mkdir -p /usr/share/themes/pimpmyparrot
+    cp -f ./files/usr/share/themes/index.theme /usr/share/themes/pimpmyparrot
 
     # Copy icons
     mkdir -p /usr/share/icons/htb
