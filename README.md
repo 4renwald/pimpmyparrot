@@ -9,16 +9,13 @@ This repo is for my ParrotOS customization scripts, inspied from HTB's Pwnbox an
 
 ## Requirements
 The script was tested on :
-- [ParrotOS HTB Edition version 6.2 Lorikeet](https://deb.parrot.sh/parrot/iso/6.2/Parrot-htb-6.2_amd64.iso)
-
-- [ParrotOS Security Edition version 6.2 Lorikeet](https://deb.parrot.sh/parrot/iso/6.2/Parrot-security-6.2_amd64.iso)
+- [ParrotOS HTB Edition version 6.3 Lorikeet](https://deb.parrot.sh/parrot/iso/6.3.2/Parrot-htb-6.3.2_amd64.iso)
 
 ##  Usage
 ```
 git clone https://github.com/4renwald/pimpmyparrot.git
 sudo pimpmyparrot/setup.sh
 ```
-![](assets/images/setup.gif)
 
 Inside the script directory, a "logs" folder is created and contains each task's outputs in separated files.
 
