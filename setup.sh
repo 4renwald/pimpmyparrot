@@ -26,17 +26,20 @@ BEIGE=$(tput setaf 230)
 ENDCOLOR=$(tput sgr0)
 
 # Print banner
-banner () {
-    echo "$BLUE
-    ██████╗░██╗███╗░░░███╗██████╗░███╗░░░███╗██╗░░░██╗██████╗░░█████╗░██████╗░██████╗░░█████╗░████████╗
-    ██╔══██╗██║████╗░████║██╔══██╗████╗░████║╚██╗░██╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝
-    ██████╔╝██║██╔████╔██║██████╔╝██╔████╔██║░╚████╔╝░██████╔╝███████║██████╔╝██████╔╝██║░░██║░░░██║░░░
-    ██╔═══╝░██║██║╚██╔╝██║██╔═══╝░██║╚██╔╝██║░░╚██╔╝░░██╔═══╝░██╔══██║██╔══██╗██╔══██╗██║░░██║░░░██║░░░
-    ██║░░░░░██║██║░╚═╝░██║██║░░░░░██║░╚═╝░██║░░░██║░░░██║░░░░░██║░░██║██║░░██║██║░░██║╚█████╔╝░░░██║░░░
-    ╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝░░░░░╚═╝░░░╚═╝░░░╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░░░░╚═╝░░░$ENDCOLOR"​​​​​
-    echo $ENDCOLOR
-    echo ""
+banner() {
+    echo "${BLUE}"
+    cat <<'EOF'
+       _                                                            _
+ _ __ (_)_ __ ___  _ __  _ __ ___  _   _ _ __   __ _ _ __ _ __ ___ | |_
+| '_ \| | '_ ` _ \| '_ \| '_ ` _ \| | | | '_ \ / _` | '__| '__/ _ \| __|
+| |_) | | | | | | | |_) | | | | | | |_| | |_) | (_| | |  | | | (_) | |_
+| .__/|_|_| |_| |_| .__/|_| |_| |_|\__, | .__/ \__,_|_|  |_|  \___/ \__|
+|_|               |_|              |___/|_|
+EOF
+    echo "${ENDCOLOR}"
+    echo
 }
+
 
 # functions to format the output
 spinner() {
@@ -201,9 +204,9 @@ get_burp_cert () {
 firefox () {
     print_info "Configuring Firefox"
     spinner &
-    default_profile=$(ls /home/$target_user/.mozilla/firefox/ | grep default-release)
+    default_profile=$(ls /home/$target_user/.mozilla/firefox/ | grep default-esr)
     sqlite3 /home/$target_user/.mozilla/firefox/$default_profile/places.sqlite ".restore ./files/applications/firefox/places.sqlite" 2>logs/errors.log
-    cp ./files/applications/firefox/policies.json /usr/lib/firefox/distribution 2>logs/errors.log
+    cp ./files/applications/firefox/policies.json /usr/lib/firefox-esr/distribution 2>logs/errors.log
     spinner_end
     print_success "Configured Firefox\n"
 }
