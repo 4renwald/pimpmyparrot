@@ -189,6 +189,9 @@ install_utils () {
     print_info "Installing utils"
     spinner &
     apt install fzf -y 1>>logs/utils.log 2>logs/errors.log
+    wget -O /tmp/pimpmyparrot/ble-nightly.tar.xz https://github.com/akinomyoga/ble.sh/releases/download/nightly/ble-nightly.tar.xz 1>>logs/ble_sh.log 2>logs/errors.log
+    tar -C /tmp/pimpmyparrot -xJf /tmp/pimpmyparrot/ble-nightly.tar.xz 1>>logs/ble_sh.log 2>logs/errors.log
+    bash /tmp/pimpmyparrot/ble-nightly/ble.sh --install ~/.local/share 1>>logs/ble_sh.log 2>logs/errors.log
     spinner_end
     print_success "Utils installed\n"
 }
@@ -281,6 +284,7 @@ main () {
     install_xfreerdp
     install_pwntools
     install_freeze
+    install_utils
     get_burp_cert
     firefox
     install_fonts

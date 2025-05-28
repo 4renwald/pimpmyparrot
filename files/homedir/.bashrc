@@ -168,9 +168,11 @@ export PS1="$PS1\[\033[1;32m\]"
 trap 'echo -ne "\033[0m"' DEBUG
 
 # For vim
-set mouse=a
+#set mouse=a
 
 # Workaround for python2.7
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - bash)"
+
+source ~/.local/share/blesh/ble.sh
