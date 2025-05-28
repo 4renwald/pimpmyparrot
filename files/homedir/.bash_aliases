@@ -43,3 +43,6 @@ find_string_alias_func() {
 }
 
 alias find_string='find_string_alias_func'
+
+# fzf
+alias fzf-wordlists='/usr/share/seclists -type f | fzf'
