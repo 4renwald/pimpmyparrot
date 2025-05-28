@@ -1,4 +1,6 @@
-# ~/.bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
 # If not running interactively, don't do anything
 case $- in
@@ -6,7 +8,7 @@ case $- in
       *) return;;
 esac
 
-export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/share:/usr/share/john:/opt/mssql-tools/bin:$PATH
+export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:$PATH
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -57,7 +59,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 1 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]☺\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]☺\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\] "
 else
     PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
 fi
@@ -79,13 +81,45 @@ fi
 
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\033[1;32m\]\342\224\214\342\224\200\$([[ \$(/etc/pimpmyparrot/vpnbash.sh) == *\"10.\"* ]] && echo \"[\[\033[1;34m\]\$(/etc/pimpmyparrot/vpnserver.sh)\[\033[1;32m\]]\342\224\200[\[\033[1;37m\]\$(/etc/pimpmyparrot/vpnbash.sh)\[\033[1;32m\]]\342\224\200\")[\[\033[1;37m\]\u\[\033[01;32m\]@\[\033[01;34m\]\h\[\033[1;32m\]]\342\224\200[\[\033[1;37m\]\w\[\033[1;32m\]]\n\[\033[1;32m\]\342\224\224\342\224\200\342\224\200\342\225\274 [\[\e[01;33m\]★\[\e[01;32m\]]\\$ \[\e[0m\]"
-    ;;
+xterm*|rxvt*|tmux*)
+
+  ETHER_DEV=$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2=="ethernet"{print $1; exit}')
+  WIFI_DEV=$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2=="wifi"{print $1; exit}')
+  VPN_DEV=$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2=="tun"{print $1; exit}')
+
+  if [ -n "$VPN_DEV" ]; then
+    IP_VPN=$(ip -4 -o addr show dev "$VPN_DEV" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)
+    VPN_FILE=$(ps -ef | grep 'openvpn' | head -1 | awk '{print $10}')
+    VPN=$(cat ~/$VPN_FILE | grep "remote " | cut -d " " -f 2 | cut -d "." -f 1 | cut -d "-" -f 2-)
+  else
+    IP_VPN=""
+  fi
+
+  if [ -n "$ETHER_DEV" ]; then
+    IP_ETHER=$(ip -4 -o addr show dev "$ETHER_DEV" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)
+  else
+    IP_ETHER=""
+  fi
+
+  if [ -n "$WIFI_DEV" ]; then
+    IP_WIFI=$(ip -4 -o addr show dev "$WIFI_DEV" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)
+  else
+    IP_WIFI=""
+  fi
+
+  if [ -n "$IP_VPN" ]; then
+    IP="$IP_VPN"
+  elif [ -n "$IP_ETHER" ]; then
+    IP="$IP_ETHER"
+  else
+    IP="$IP_WIFI"
+  fi
+
+  PS1="\[\033[1;32m\]\342\224\214\342\224\200\$([[ \${IP} == *\"10.\"* ]] && echo \"[\[\033[1;34m\]\${VPN}\[\033[1;32m\]]\342\224\200\033[1;37m\]\[\033[1;32m\]\")[\[\033[1;37m\]\${IP}\[\033[1;32m\]]\342\224\200[\[\033[1;37m\]\u\[\033[01;32m\]@\[\033[01;34m\]\h\[\033[1;32m\]]\342\224\200[\[\033[1;37m\]\w\[\033[1;32m\]]\n\[\033[1;32m\]\342\224\224\342\224\200\342\224\200\342\225\274 [\[\e[01;33m\]★\[\e[01;32m\]]\\$ \[\e[0m\]"
+  ;;
 *)
-    ;;
+  ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -99,6 +133,15 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
+# some more ls aliases
+alias ll='ls -lh'
+alias la='ls -lha'
+alias l='ls -CF'
+alias em='emacs -nw'
+alias dd='dd status=progress'
+alias _='sudo'
+alias _i='sudo -i'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -120,10 +163,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f "$HOME/.cargo/env" ]; then
-  . "$HOME/.cargo/env"
-fi
-
 # Makes text green while its being typed
 export PS1="$PS1\[\033[1;32m\]"
 trap 'echo -ne "\033[0m"' DEBUG
@@ -133,4 +172,4 @@ set mouse=a
 
 # Workaround for python2.7
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PA

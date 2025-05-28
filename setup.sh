@@ -1,281 +1,176 @@
-#!/bin/bash
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
-# Error handling for the script
-set -e
-trap 'error_handling' EXIT
-error_handling() {
-    exit_status=$?
-    error_message=$(cat logs/errors.log)
-    if [ "$exit_status" -ne 0 ]; then
-        printf "\r"
-        print_error "$error_message\n"
-        clean_up_tmp
-    fi
-}
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
-# Vars
-target_user=$(ls /home)
-target_uid=$(id $target_user | awk -F'[=()]' '{print $2}')
+export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:$PATH
 
-# Setting colors for text format
-BLUE=$(tput setaf 14)
-GREEN=$(tput setaf 10)
-RED=$(tput setaf 9)
-PURPLE=$(tput setaf 13)
-BEIGE=$(tput setaf 230)
-ENDCOLOR=$(tput sgr0)
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
 
-# Print banner
-banner() {
-    echo "${BLUE}"
-    cat <<'EOF'
-       _                                                            _
- _ __ (_)_ __ ___  _ __  _ __ ___  _   _ _ __   __ _ _ __ _ __ ___ | |_
-| '_ \| | '_ ` _ \| '_ \| '_ ` _ \| | | | '_ \ / _` | '__| '__/ _ \| __|
-| |_) | | | | | | | |_) | | | | | | |_| | |_) | (_| | |  | | | (_) | |_
-| .__/|_|_| |_| |_| .__/|_| |_| |_|\__, | .__/ \__,_|_|  |_|  \___/ \__|
-|_|               |_|              |___/|_|
-EOF
-    echo "${ENDCOLOR}"
-    echo
-}
+# append to the history file, don't overwrite it
+shopt -s histappend
 
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
 
-# functions to format the output
-spinner() {
-    local i=0 sp n message
-    sp='⣾⣽⣻⢿⡿⣟⣯⣷'
-    n=${#sp}
-    message=$1
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
 
-    printf ' '
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
 
-    while sleep 0.2; do
-        printf "\r%s %s" "${sp:i++%n:1}" "$message"
-    done
-}
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-spinner_end() {
-    kill "$!"
-    printf "\r"
-}
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
 
-print_info () {
-    echo -e "$PURPLE[*] $1 $ENDCOLOR"
-}
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
 
-print_success () {
-    echo -e "$GREEN[+] $1 $ENDCOLOR"
-}
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
 
-print_error () {
-    echo -e "$RED[!] $1 $ENDCOLOR"
-}
-
-
-# Check if script runs as root
-is_user_root () {
-    if [ "$EUID" -ne 0 ]; then
-        print_error "This script needs to be run using sudo"
-        exit 0
-    fi
-}
-
-# Clean up /tmp/pimpmyparrot folder when failure or end
-clean_up_tmp () {
-    print_info "Cleaning up"
-    spinner &
-    rm -rf /tmp/pimpmyparrot/
-    spinner_end
-    print_success "Cleaned up temp files\n"
-}
-
-# Change to the directory of the script and setup logs and tmp folders
-change_directory_script () {
-    SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-    cd $SCRIPT_DIR
-    
-    # Create tmp and logs folders for script execution
-    mkdir -p /tmp/pimpmyparrot
-    mkdir -p ./logs
-    rm -rf /tmp/pimpmyparrot/* ./logs/*
-}
-
-# Update system
-update_system () {
-    print_info "Updating the system"
-    spinner &
-    (apt update -y && apt full-upgrade -y && apt autoremove -y && apt autoclean -y) 1>>logs/update.log 2>logs/errors.log
-    spinner_end
-    print_success "System updated\n"
-}
-
-# Install pyenv
-install_pyenv () {
-    print_info "Installing Pyenv"
-    if [ -d "/home/$target_user/.pyenv" ]; then
-        print_success "Pyenv is already installed\n"
-        return 0
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	    color_prompt=yes
     else
-        sudo -u "$target_user" bash -c 'curl -s https://pyenv.run | bash' 1>>logs/dependencies.log 2>logs/errors.log
+	    color_prompt=
     fi
-    print_success "Pyenv installed\n"
-}
+fi
 
-# Install Java version 21 for Burpsuite to work
-install_java_21 () {
-    print_info "Installing Java version 21 for Burpsuite"
-    if [ -d "/usr/lib/jvm/jdk-21" ]; then
-        print_success "Java version 21 already installed\n"
-        return 0
-    fi
-    spinner &
-    java_21_url="https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz"
-    wget -P /tmp/pimpmyparrot/ $java_21_url 1>>logs/java_update.log 2>logs/errors.log
-    tar xvf /tmp/pimpmyparrot/openjdk-21.0.2_linux-x64_bin.tar.gz -C /tmp/pimpmyparrot/ 1>>logs/java_update.log 2>logs/errors.log
-    mv /tmp/pimpmyparrot/jdk-21.0.2/ /usr/lib/jvm/jdk-21 2>logs/errors.log
-    spinner_end
-    print_success "Java version 21 installed\n"
-}
+if [ "$color_prompt" = yes ]; then
+    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\] "
+else
+    PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
+fi
 
-# Install PowerShell
-install_pwsh () {
-    print_info "Installing PowerShell"
-    spinner &
-    if command -v pwsh &> /dev/null; then
-        spinner_end
-        print_success "PowerShell is already installed\n"
-        return 0
-    fi
-    wget -P /tmp/pimpmyparrot/ https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    dpkg -i /tmp/pimpmyparrot/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    apt-get install -f /tmp/pimpmyparrot/powershell_7.4.6-1.deb_amd64.deb 1>>logs/dracula_theme.log 2>logs/errors.log
-    spinner_end
-    print_success "PowerShell installed\n"
-}
+# Set 'man' colors
+if [ "$color_prompt" = yes ]; then
+	man() {
+	env \
+	LESS_TERMCAP_mb=$'\e[01;31m' \
+	LESS_TERMCAP_md=$'\e[01;31m' \
+	LESS_TERMCAP_me=$'\e[0m' \
+	LESS_TERMCAP_se=$'\e[0m' \
+	LESS_TERMCAP_so=$'\e[01;44;33m' \
+	LESS_TERMCAP_ue=$'\e[0m' \
+	LESS_TERMCAP_us=$'\e[01;32m' \
+	man "$@"
+	}
+fi
 
-# Install xfreerdp with aptitude
-install_xfreerdp () {
-    print_info "Installing aptitude and xfreerdp"
-    spinner &
-    apt install aptitude -y 1>>logs/xfreerdp.log 2>logs/errors.log
-    aptitude install freerdp2-x11 -y 1>>logs/xfreerdp.log 2>logs/errors.log
-    spinner_end
-    print_success "aptitude and xfreerdp installed\n"
-}
+unset color_prompt force_color_prompt
 
-# Install pwntools
-install_pwntools () {
-    print_info "Installing pwntools"
-    spinner &
-    apt install python3-pwntools -y 1>>logs/pwntools.log 2>logs/errors.log
-    spinner_end
-    print_success "pwntools installed\n"
-}
+case "$TERM" in
+xterm*|rxvt*|tmux*)
 
-# Install Freeze
-install_freeze () {
-    print_info "Installing Freeze"
-    spinner &
-    wget -P /tmp/pimpmyparrot/ https://github.com/charmbracelet/freeze/releases/download/v0.1.6/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
-    apt-get install -f /tmp/pimpmyparrot/freeze_0.1.6_amd64.deb 1>>logs/freeze.log 2>logs/errors.log
-    spinner_end
-    print_success "Freeze installed\n"
-}
+  ETHER_DEV=$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2=="ethernet"{print $1; exit}')
+  WIFI_DEV=$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2=="wifi"{print $1; exit}')
+  VPN_DEV=$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2=="tun"{print $1; exit}')
 
-# Add Burpsuite cerificate to CA Certificates
-get_burp_cert () {
-    print_info "Retrieving and installing Burpsuite certificate to ca-certificates"
-    spinner &
-    if [ -f "/usr/local/share/ca-certificates/BurpSuiteCA.der" ]; then
-        print_success "BurpSuite certificate already installed\n"
-        spinner_end
-        return 0
-    else
-        timeout 45 /usr/lib/jvm/jdk-21/bin/java -Djava.awt.headless=true -jar /usr/share/burpsuite/burpsuite_community.jar < <(echo y) 1>>logs/burp_cert.log 2>logs/errors.log &
-        sleep 30
-        curl http://localhost:8080/cert -o /usr/local/share/ca-certificates/BurpSuiteCA.der 2>logs/errors.log
-    fi
-    spinner_end
-    print_success "Burpsuite certificate installed\n"
-}
+  if [ -n "$VPN_DEV" ]; then
+    IP_VPN=$(ip -4 -o addr show dev "$VPN_DEV" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)
+    VPN_FILE=$(ps -ef | grep 'openvpn' | head -1 | awk '{print $10}')
+    VPN=$(cat ~/$VPN_FILE | grep "remote " | cut -d " " -f 2 | cut -d "." -f 1 | cut -d "-" -f 2-)
+  else
+    IP_VPN=""
+  fi
 
-# Firefox configurations
-firefox () {
-    print_info "Configuring Firefox"
-    spinner &
-    default_profile=$(ls /home/$target_user/.mozilla/firefox/ | grep default-esr)
-    sqlite3 /home/$target_user/.mozilla/firefox/$default_profile/places.sqlite ".restore ./files/applications/firefox/places.sqlite" 2>logs/errors.log
-    cp ./files/applications/firefox/policies.json /usr/lib/firefox-esr/distribution 2>logs/errors.log
-    spinner_end
-    print_success "Configured Firefox\n"
-}
+  if [ -n "$ETHER_DEV" ]; then
+    IP_ETHER=$(ip -4 -o addr show dev "$ETHER_DEV" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)
+  else
+    IP_ETHER=""
+  fi
 
-# Install required fonts
-install_fonts () {
-    print_info "Installing fonts"
-    spinner &
-    mkdir -p /home/$target_user/.local/share/fonts
-    
-    # Cascadia Code
-    mkdir -p /tmp/pimpmyparrot/CascadiaCode
-    wget -P /tmp/pimpmyparrot/CascadiaCode https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip 1>>logs/install_fonts.log 2>logs/errors.log
-    unzip /tmp/pimpmyparrot/CascadiaCode/CascadiaCode-2404.23.zip -d /tmp/pimpmyparrot/CascadiaCode 1>>logs/install_fonts.log 2>logs/errors.log
-    rsync -a /tmp/pimpmyparrot/CascadiaCode/ttf/ /home/$target_user/.local/share/fonts/ 2>logs/errors.log
-    
-    spinner_end
-    print_success "Fonts installed\n"
-}
+  if [ -n "$WIFI_DEV" ]; then
+    IP_WIFI=$(ip -4 -o addr show dev "$WIFI_DEV" 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n1)
+  else
+    IP_WIFI=""
+  fi
 
-# General system settings (Terminal, themes, etc..)
-settings () {
-    print_info "Configuring user and system settings"
-    spinner &
-    
-    # Copy bash scripts for terminal in /etc/htb/ 
-    mkdir -p /etc/pimpmyparrot 2> logs/errors.log
-    cp -rf ./files/etc/pimpmyparrot/* /etc/pimpmyparrot
-    chmod a+x /etc/pimpmyparrot/*
+  if [ -n "$IP_VPN" ]; then
+    IP="$IP_VPN"
+  elif [ -n "$IP_ETHER" ]; then
+    IP="$IP_ETHER"
+  else
+    IP="$IP_WIFI"
+  fi
 
-    # Copy user configs to homedir
-    cp -rf ./files/homedir/. /home/$target_user/ 2>logs/errors.log
+  PS1="\[\033[1;32m\]\342\224\214\342\224\200\$([[ \${IP} == *\"10.\"* ]] && echo \"[\[\033[1;34m\]\${VPN}\[\033[1;32m\]]\342\224\200\033[1;37m\]\[\033[1;32m\]\")[\[\033[1;37m\]\${IP}\[\033[1;32m\]]\342\224\200[\[\033[1;37m\]\u\[\033[01;32m\]@\[\033[01;34m\]\h\[\033[1;32m\]]\342\224\200[\[\033[1;37m\]\w\[\033[1;32m\]]\n\[\033[1;32m\]\342\224\224\342\224\200\342\224\200\342\225\274 [\[\e[01;33m\]★\[\e[01;32m\]]\\$ \[\e[0m\]"
+  ;;
+*)
+  ;;
+esac
 
-    # Copy theme settings
-    mkdir -p /usr/share/themes/pimpmyparrot
-    cp -f ./files/usr/share/themes/index.theme /usr/share/themes/pimpmyparrot
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-    # Copy icons
-    mkdir -p /usr/share/icons/htb
-    cp -f ./files/usr/share/icons/htb/* /usr/share/icons/htb/
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
 
-    # zsh auto-suggestions
-    git clone https://github.com/zsh-users/zsh-autosuggestions $target_user/.zsh/zsh-autosuggestions 1>>logs/zsh.log 2>logs/errors.log
+# some more ls aliases
+alias ll='ls -lh'
+alias la='ls -lha'
+alias l='ls -CF'
+alias em='emacs -nw'
+alias dd='dd status=progress'
+alias _='sudo'
+alias _i='sudo -i'
 
-    # Load terminal and panel configs
-    sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/terminal/ < ./files/dconf_terminal 2>logs/errors.log
-    sudo -H -u $target_user DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$target_uid/bus dconf load /org/mate/panel/ < ./files/dconf_panel 2>logs/errors.log
-    killall mate-panel
-    
-    spinner_end
-    print_success "Configured user and system settings\n"
-}
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-main () {
-    is_user_root
-    change_directory_script
-    banner
-    update_system
-    install_pyenv
-    install_java_21
-    install_pwsh
-    install_xfreerdp
-    install_pwntools
-    install_freeze
-    get_burp_cert
-    firefox
-    install_fonts
-    settings
-    clean_up_tmp
-}
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
 
-main
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Makes text green while its being typed
+export PS1="$PS1\[\033[1;32m\]"
+trap 'echo -ne "\033[0m"' DEBUG
+
+# For vim
+set mouse=a
+
+# Workaround for python2.7
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
