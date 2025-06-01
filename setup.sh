@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Error handling for the script
